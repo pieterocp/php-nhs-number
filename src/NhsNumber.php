@@ -12,7 +12,7 @@ class NhsNumber
     /**
      * The multipliers used when validating the NHS number.
      */
-    protected array $multipliers = [
+    public static array $multipliers = [
         1 => 10,
         2 => 9,
         3 => 8,
@@ -86,11 +86,44 @@ class NhsNumber
 
         for ($i = 0; $i <= 8; $i++) {
             $currentNumber = substr($this->number, $i, 1);
-            $currentMultiplier = $this->multipliers[$i + 1];
+            $currentMultiplier = NhsNumber::$multipliers[$i + 1];
             $currentSum = $currentSum + ($currentNumber * $currentMultiplier);
         }
 
         return $currentSum;
+    }
+
+    /**
+     * Loop over each digit of the current NHS number and calculate
+     * the appropriate checksum based on the predefined multipliers.
+     *
+     * @return int
+     */
+    public static function generateChecksum(string $number): int
+    {
+        $currentSum = 0;
+        $currentMultiplier = 0;
+        $currentNumber = 0;
+
+        for ($i = 0; $i <= 8; $i++) {
+            $currentNumber = substr($number, $i, 1);
+            $currentMultiplier = NhsNumber::$multipliers[$i + 1];
+            $currentSum = $currentSum + ($currentNumber * $currentMultiplier);
+        }
+
+        return $currentSum;
+    }
+
+    public static function getChecksumDigit(string $number): int
+    {
+        $remainder = self::generateChecksum($number) % 11;
+        $total = 11 - $remainder;
+
+        if ($total === 11) {
+            $total = 0;
+        }
+
+        return $total;
     }
 
     /**
@@ -176,11 +209,15 @@ class NhsNumber
         $numbers = [];
 
         while (count($numbers) < $count) {
-            $number = (string) mt_rand(100_000_000, 9_999_999_999);
+            $number = (string) mt_rand(100_000_00, 9_999_999_99);
 
-            if ($number < 1_000_000_000) {
+            if ($number < 1_000_000_00) {
                 $number = '0' . $number;
             }
+
+            $sum = NhsNumber::getChecksumDigit($number);
+
+            $number = $number . $sum;
 
             try {
                 (new static($number))->validate();
