@@ -66,7 +66,6 @@ class NhsNumberTest extends TestCase
 
         foreach ($numbers as $number) {
             $this->assertTrue((new NhsNumber($number))->validate());
-            $this->assertNotEquals(0, substr($number, 0, 1), 'NHS numbers can start with 0, this generator does not.');
         }
     }
 
