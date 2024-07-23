@@ -39,7 +39,7 @@ class NhsNumber
     }
 
     /**
-     * Determine whether or not the current NHS number is valid.
+     * Determine whether the current NHS number is valid.
      *
      * @return bool
      */
@@ -139,7 +139,7 @@ class NhsNumber
     }
 
     /**
-     * Get a human readable string of the NHS number.
+     * Get a human-readable string of the NHS number.
      *
      * @return string
      */
