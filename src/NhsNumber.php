@@ -163,14 +163,14 @@ class NhsNumber
      *
      * @param int $count
      * @param bool $unique
-     * @return array
+     * @return string[]
      */
     public static function getRandomNumbers(int $count = 1, bool $unique = true): array
     {
         $numbers = [];
 
         while (count($numbers) < $count) {
-            $number = mt_rand(1000000000, 9999999999);
+            $number = mt_rand(1_000_000_000, 9_999_999_999);
 
             try {
                 (new static($number))->validate();
