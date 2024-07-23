@@ -6,17 +6,13 @@ class NhsNumber
 {
     /**
      * The original NHS number.
-     *
-     * @var string
      */
-    protected $number;
+    protected string $number;
 
     /**
      * The multipliers used when validating the NHS number.
-     *
-     * @var array
      */
-    protected $multipliers = [
+    protected array $multipliers = [
         1 => 10,
         2 => 9,
         3 => 8,
@@ -31,11 +27,11 @@ class NhsNumber
     /**
      * Construct the NHS number object.
      *
-     * @param string|int $number
+     * @param string $number
      */
-    public function __construct($number)
+    public function __construct(string $number)
     {
-        $this->number = str_replace(' ', '', $number);
+        $this->number = str_replace(' ', '', str_replace('-', ' ', $number));
     }
 
     /**
@@ -133,9 +129,19 @@ class NhsNumber
     {
         $formattedNumber = (string) $this->number;
         $formattedNumber = substr_replace($formattedNumber, ' ', 3, 0);
-        $formattedNumber = substr_replace($formattedNumber, ' ', 7, 0);
+        return substr_replace($formattedNumber, ' ', 7, 0);
+    }
 
-        return $formattedNumber;
+    /**
+     * Format the NHS number as a string by spacing it out in a 3-3-4 fashion.
+     *
+     * @return string
+     */
+    public function formatDashes(): string
+    {
+        $formattedNumber = (string) $this->number;
+        $formattedNumber = substr_replace($formattedNumber, '-', 3, 0);
+        return substr_replace($formattedNumber, '-', 7, 0);
     }
 
     /**
@@ -155,7 +161,7 @@ class NhsNumber
      */
     public static function getRandomNumber(): string
     {
-        return static::getRandomNumbers(1)[0];
+        return static::getRandomNumbers()[0];
     }
 
     /**

@@ -33,7 +33,7 @@ Utility class to validate, format and generate NHS numbers.
 
 An "NHS number" is a unique identifier that every individual patient registered with Great Britain's National Health Service (NHS) has.
 
-[You can find out more about NHS numbers on the nhs.uk website.](https://www.nhs.uk/NHSEngland/thenhs/records/nhs-number/Pages/what-is-the-nhs-number.aspx)
+[You can find out more about NHS numbers on the nhs.uk website.](https://www.nhs.uk/NHSEngland/thenhs/records/nhs-number/Pages/what-is-the-nhs-number.aspx) and even more information at https://digital.nhs.uk/services/personal-demographics-service/nhs-number.
 
 ### How do you validate an NHS number?
 
@@ -89,11 +89,14 @@ The NHS recommend that when displaying an NHS number to a human, it should be sp
 echo $nhsNumber->format();
 // '907 784 4449'
 
+echo $nhsNumber->formatDashes();
+// '907-784-4449'
+
 echo (string) $nhsNumber;
 // '907 784 4449'
 ```
 
-To get a boolean representation of whether or not the current number is valid, call the `->isValid()` method on the object.
+To get a boolean representation of whether the current number is valid, call the `->isValid()` method on the object.
 
 ```php
 $nhsNumber->isValid();
